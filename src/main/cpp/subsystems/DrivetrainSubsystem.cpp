@@ -17,8 +17,8 @@ using namespace frc;
 using namespace units;
 using namespace pathplanner;
 
-DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name)
-        : _vision{vision}, _pigeon{pigeon_id, drivetrain_canbus_name}
+DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* operator_interface)
+        : _vision{vision}, _pigeon{pigeon_id, drivetrain_canbus_name}, _oi{operator_interface}
 {
     if (NULL != swerve_config_array) {
         wpi::array<frc::Rotation2d, 4> headings{wpi::empty_array};
@@ -64,7 +64,13 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
     }
 
     _pigeon.GetConfigurator().Apply(ctre::phoenix6::configs::Pigeon2Configuration{});
-    _odometry = new SwerveDriveOdometry<4>{kinematics, GetHeading(), GetModulePositions()};
+    _odometry = new SwerveDrivePoseEstimator<4>{
+                                                    kinematics, 
+                                                    GetHeading(), 
+                                                    GetModulePositions(), 
+                                                    frc::Pose2d{}, 
+                                                    {0.1, 0.1, 0.1}, 
+                                                    {1.0, 1.0, 1.0}};
     SetBrakeMode();
 
     frc::SmartDashboard::PutData("Field", &_field);
@@ -75,9 +81,13 @@ void DrivetrainSubsystem::Periodic() {
         fmt::print("Error: odometry accessed in Periodic before initialization");
     } else {
         _odometry->Update(GetHeading(), GetModulePositions());
-        //
-        //if (_vision != NULL)
-            //ResetOdometry(_vision->EstimatePose(GetPose()));
+        if (_vision != NULL)
+            if (_vision != NULL && !_oi->GetIgnoreVision()){
+            for (const SC::SC_CameraResults& results : _vision->GetCameraResults(GetPose())){
+                wpi::array<double, 3> newStdDevs{results.Standard_Deviation(0), results.Standard_Deviation(1), results.Standard_Deviation(2)};
+                _odometry->AddVisionMeasurement(results.Vision_Measurement, results.Timestamp, newStdDevs);
+            }
+        }
     }
 
     if (SmartDashboard::GetBoolean("Drivetrain Diagnostics", false)) {
@@ -118,7 +128,7 @@ Rotation2d DrivetrainSubsystem::GetHeading() {
 }
 
 void DrivetrainSubsystem::SetHeading(degree_t heading) {
-    ResetOdometry(Pose2d(_odometry->GetPose().Translation(), Rotation2d(heading)));
+    ResetOdometry(Pose2d(_odometry->GetEstimatedPosition().Translation(), Rotation2d(heading)));
     //fmt::print("Reset Head!!!!!!\n");
 }
 
@@ -131,7 +141,7 @@ Pose2d DrivetrainSubsystem::GetPose() {
         fmt::print("Error: odometry accesed in GetPose before initialization");
         return Pose2d{0_m, 0_m, 0_deg};
     } else {
-        return _odometry->GetPose();
+        return _odometry->GetEstimatedPosition();
     }
 }
 

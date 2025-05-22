@@ -37,7 +37,8 @@ class Operator_Interface {
         Operator_Interface();
 
         void SetRumble(double Rumble);
-
+        bool GetIgnoreVision();
+        
         int RawPOV();
 
     private:

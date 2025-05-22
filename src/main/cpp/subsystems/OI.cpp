@@ -33,7 +33,13 @@ Operator_Interface::Operator_Interface(){}
 void Operator_Interface::SetRumble(double Rumble) {
     _operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
 }
+bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 
 int Operator_Interface::RawPOV() {
     return _operator_controller.GetPOV();
 }
+
+// ----------
+// Testing
+// ----------
+Testing_Interface::Testing_Interface() {}

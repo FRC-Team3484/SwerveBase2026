@@ -8,8 +8,32 @@
 #include <units/length.h>
 #include <units/acceleration.h>
 
+#include <frc/apriltag/AprilTagFieldLayout.h>
+#include <photon/PhotonPoseEstimator.h>
+
 #include <FRC3484_Lib/utils/SC_ControllerMaps.h>
 #include <FRC3484_Lib/utils/SC_Datatypes.h>
+
+namespace VisionConstants {
+    const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
+    constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
+
+    const Eigen::Matrix<double, 3, 1> SINGLE_TAG_STDDEV{4, 4, 8};
+    const Eigen::Matrix<double, 3, 1> MULTI_TAG_STDDEV{0.5, 0.5, 1};
+
+    const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
+        SC::SC_CameraConfig{ // Front Left
+            "Camera_1",
+            frc::Transform3d{frc::Translation3d{10_in, 11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, -23.2_deg}},
+            true
+        },
+        SC::SC_CameraConfig{ // front right
+            "Camera_2",
+            frc::Transform3d{frc::Translation3d{10_in, -11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, 23.2_deg}},
+            true
+        }
+    };
+}
 
 namespace SwerveModuleConstants {
     constexpr units::feet_per_second_t MAX_WHEEL_SPEED = 8_fps;
@@ -118,6 +142,9 @@ namespace UserInterface {
         constexpr double OPERATOR_RUMBLE_HIGH = 0.5;
         constexpr double OPERATOR_RUMBLE_LOW = 0.2;
         constexpr double RUMBLE_STOP = 0; 
+
+        // TODO: Set this button
+        constexpr int IGNORE_VISION = 0;
     }
 
     namespace Testing {

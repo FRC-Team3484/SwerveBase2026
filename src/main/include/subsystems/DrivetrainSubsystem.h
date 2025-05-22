@@ -19,10 +19,13 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
+
+#include "OI.h"
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* operator_interface);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -59,7 +62,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
         units::degree_t _pigeon_offset;
 
-        frc::SwerveDriveOdometry<4>* _odometry;
+        Operator_Interface* _oi;
+
+        frc::SwerveDrivePoseEstimator<4>* _odometry;
 
         frc::Field2d _field;
 };
