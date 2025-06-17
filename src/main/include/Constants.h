@@ -27,7 +27,7 @@ namespace VisionConstants {
             frc::Transform3d{frc::Translation3d{10_in, 11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, -23.2_deg}},
             true
         },
-        SC::SC_CameraConfig{ // front right
+        SC::SC_CameraConfig{ // Front Right
             "Camera_2",
             frc::Transform3d{frc::Translation3d{10_in, -11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, 23.2_deg}},
             true
@@ -46,7 +46,6 @@ namespace SwerveModuleConstants {
         constexpr double Kd = 0.0;
         constexpr units::radians_per_second_t MAX_SPEED = 12_rad_per_s;
         constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 100_rad_per_s_sq;
-
     }
 }
 
@@ -151,6 +150,5 @@ namespace UserInterface {
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }
 }
-
 
 #endif 
