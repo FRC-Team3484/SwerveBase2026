@@ -5,6 +5,7 @@
 #include <frc/geometry/Pose2d.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/Subsystem.h>
+#include <frc/apriltag/AprilTagFieldLayout.h>
 
 #include <pathplanner/lib/auto/AutoBuilder.h>
 
@@ -15,9 +16,9 @@ class SC_Pathfinding {
          * 
          * @param drivetrain_subsystem A pointer to the drivetrain subsystem
          * @param pose_supplier A lambda to the drivetrain function that returns the current pose of the robot
-         * 
+         * @param april_tag_layout The layout of the april tags
          */
-        SC_Pathfinding(frc2::Subsystem *drivetrain_subsystem, std::function<frc::Pose2d()> pose_supplier);
+        SC_Pathfinding(frc2::Subsystem *drivetrain_subsystem, std::function<frc::Pose2d()> pose_supplier, frc::AprilTagFieldLayout april_tag_layout);
 
         /**
          * Returns the poses of the april tags by ID
@@ -48,7 +49,7 @@ class SC_Pathfinding {
          * 
          * @return The poses with the offsets applied
          */
-        frc::Pose2d ApplyOffsetsToPoses(std::vector<frc::Pose2d> poses, std::vector<frc::Pose2d> offsets);
+        std::vector<frc::Pose2d> ApplyOffsetsToPoses(std::vector<frc::Pose2d> poses, std::vector<frc::Pose2d> offsets);
 
         /** 
          * Returns the pose that is closest to the robot's current position
@@ -97,4 +98,5 @@ class SC_Pathfinding {
     private:
         frc2::Subsystem *_drivetrain_subsystem;
         std::function<frc::Pose2d()> _pose_supplier;
+        frc::AprilTagFieldLayout _april_tag_layout;
 };
