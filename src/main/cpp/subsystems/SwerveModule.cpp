@@ -1,5 +1,3 @@
-#include "subsystems/SwerveModule.h"
-
 #include <units/length.h>
 #include <units/velocity.h>
 #include <units/angle.h>
@@ -9,6 +7,8 @@
 #include <frc/geometry/Rotation2d.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "subsystems/SwerveModule.h"
+
 using namespace SC;
 using namespace SwerveModuleConstants;
 
@@ -17,7 +17,6 @@ using namespace units;
 using namespace ctre::phoenix6;
 
 using namespace frc;
-
 
 SwerveModule::SwerveModule(SC_SwerveConfigs corner, SC_SwervePID pid_struct, std::string_view drivetrain_canbus_name = "rio") 
         : _drive_motor(corner.CAN_ID, drivetrain_canbus_name),

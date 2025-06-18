@@ -1,25 +1,20 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #ifndef DRIVETRAINSUBSYSTEM_H
 #define DRIVETRAINSUBSYSTEM_H
 
-#include "subsystems/SwerveModule.h"
-#include "FRC3484_Lib/components/SC_Photon.h"
-
-#include <ctre/phoenix6/Pigeon2.hpp>
-
 #include <units/angle.h>
 #include <units/angular_velocity.h>
-
 #include <wpi/array.h>
+
 #include <frc2/command/SubsystemBase.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include <ctre/phoenix6/Pigeon2.hpp>
+
+#include "FRC3484_Lib/components/SC_Photon.h"
+#include "subsystems/SwerveModule.h"
 
 #include "OI.h"
 

@@ -1,16 +1,17 @@
 #ifndef SWERVE_MODULE_H
 #define SWERVE_MODULE_H
 
-#include "Constants.h"
-#include "FRC3484_Lib/utils/SC_Datatypes.h"
-#include <ctre/phoenix6/TalonFX.hpp>
-#include <ctre/phoenix6/CANcoder.hpp>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
+#include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/CANcoder.hpp>
+
+#include "FRC3484_Lib/utils/SC_Datatypes.h"
+#include "Constants.h"
 
 class SwerveModule {
     public:

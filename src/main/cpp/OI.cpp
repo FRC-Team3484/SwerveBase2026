@@ -1,6 +1,7 @@
-#include "OI.h"
 #include <frc/MathUtil.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+
+#include "OI.h"
 
 using namespace UserInterface::Driver;
 using namespace UserInterface::Operator;
