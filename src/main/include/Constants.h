@@ -74,6 +74,8 @@ namespace DrivetrainConstants {
 
     constexpr units::inch_t DRIVETRAIN_WIDTH = 24_in;
     constexpr units::inch_t DRIVETRAIN_LENGTH = 24_in;
+    constexpr int PIGEON_ID = 22;
+    constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
 
     namespace DrivePIDConstants {
         // Check SC_Datatypes for the struct
